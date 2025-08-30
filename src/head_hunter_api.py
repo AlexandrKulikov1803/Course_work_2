@@ -1,5 +1,3 @@
-from typing import Any
-
 import requests
 
 from src.base_api import BaseApi

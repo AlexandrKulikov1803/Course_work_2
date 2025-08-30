@@ -66,7 +66,7 @@ def test_vacancy_le(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
     assert not vacancy_1 <= vacancy_2
 
 
-def test_vacancy_eq(vacancy_1: Vacancy, vacancy_2: Vacancy):
+def test_vacancy_eq(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
     assert vacancy_1 == vacancy_1
     assert not vacancy_1 == vacancy_2
     assert not vacancy_1 == 1

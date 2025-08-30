@@ -7,7 +7,9 @@ class Vacancy:
     experience: str
     all_vacancies: list = []
 
-    def __init__(self, name, url, salary, experience):
+    def __init__(
+        self, name: str, url: str, salary: None | int | dict = None, experience: None | str | dict = None
+    ) -> None:
         """Конструктор для вакансии"""
 
         self.name = name
@@ -18,7 +20,7 @@ class Vacancy:
         Vacancy.all_vacancies.append(self)
 
     @classmethod
-    def cast_to_object_list(cls, list_vacancies_json):
+    def cast_to_object_list(cls, list_vacancies_json: list) -> list:
         """Метод преобразования набора данных из JSON в список объектов"""
 
         list_vacancies_obj = []
@@ -65,7 +67,7 @@ class Vacancy:
 
         return self.salary <= other.salary
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if not isinstance(other, Vacancy):
             return False
         else:
