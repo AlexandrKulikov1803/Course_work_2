@@ -1,6 +1,7 @@
 import pytest
 
 from src.head_hunter_api import HeadHunterAPI
+from src.vacancy import Vacancy
 
 
 @pytest.fixture
@@ -93,7 +94,7 @@ def response_api() -> dict:
                 "has_test": False,
                 "response_letter_required": False,
                 "area": {"id": "2759", "name": "Ташкент", "url": "https://api.hh.ru/areas/2759"},
-                "salary": {"from": 400, "to": 1000, "currency": "USD", "gross": True},
+                "salary": {"from": 40000, "to": 100000, "currency": "USD", "gross": True},
                 "salary_range": {
                     "from": 400,
                     "to": 1000,
@@ -251,7 +252,7 @@ def list_vacancies() -> list:
             "has_test": False,
             "response_letter_required": False,
             "area": {"id": "2759", "name": "Ташкент", "url": "https://api.hh.ru/areas/2759"},
-            "salary": {"from": 400, "to": 1000, "currency": "USD", "gross": True},
+            "salary": {"from": 40000, "to": 100000, "currency": "USD", "gross": True},
             "salary_range": {
                 "from": 400,
                 "to": 1000,
@@ -312,3 +313,13 @@ def list_vacancies() -> list:
             "adv_context": None,
         },
     ]
+
+
+@pytest.fixture
+def vacancy_1() -> Vacancy:
+    return Vacancy("Python Developer", "https://hh.ru/vacancy/123456", 100000, "3 года")
+
+
+@pytest.fixture
+def vacancy_2() -> Vacancy:
+    return Vacancy("Java Developer", "https://hh.ru/vacancy/654321", 90000, "2 года")
