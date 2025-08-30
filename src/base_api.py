@@ -5,7 +5,7 @@ class BaseApi(ABC):
     """Абстрактный класс для работы с API"""
 
     @abstractmethod
-    def __init__(self):
+    def __init__(self) -> None:
         """Конструктор для API"""
         pass  # pragma: no cover
 
