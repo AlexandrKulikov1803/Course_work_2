@@ -323,3 +323,21 @@ def vacancy_1() -> Vacancy:
 @pytest.fixture
 def vacancy_2() -> Vacancy:
     return Vacancy("Java Developer", "https://hh.ru/vacancy/654321", 90000, "2 года")
+
+
+@pytest.fixture
+def file_data(null=None) -> list:
+    return [
+        {
+            "name": "Аналитик данных (Data Analyst)",
+            "url": "https://api.hh.ru/vacancies/124265987?host=hh.ru",
+            "salary": null,
+            "experience": "От 1 года до 3 лет",
+        },
+        {
+            "name": "Инженер по ручному тестированию",
+            "url": "https://api.hh.ru/vacancies/124477766?host=hh.ru",
+            "salary": "Не указана",
+            "experience": "От 2 до 6 лет",
+        },
+    ]

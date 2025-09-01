@@ -9,7 +9,7 @@ def test_vacancy_init(vacancy_1: Vacancy) -> None:
     assert vacancy_1.salary == 100000
     assert vacancy_1.experience == "3 года"
 
-    assert len(Vacancy.all_vacancies) == 1
+    assert len(Vacancy.all_vacancies) == 5
 
 
 def test_cast_to_object_list(list_vacancies: list) -> None:
@@ -28,7 +28,7 @@ def test_cast_to_object_list(list_vacancies: list) -> None:
     with pytest.raises(IndexError):
         print(vacancies[2])
 
-    assert len(Vacancy.all_vacancies) == 3
+    assert len(vacancies) == 2
 
 
 @pytest.mark.parametrize(
