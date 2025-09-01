@@ -17,7 +17,8 @@ class Vacancy:
         self.salary = Vacancy._validation_by_salary(salary)
         self.experience = Vacancy._validation_by_experience(experience)
 
-        Vacancy.all_vacancies.append(self)
+        if self not in Vacancy.all_vacancies:
+            Vacancy.all_vacancies.append(self)
 
     @classmethod
     def cast_to_object_list(cls, list_vacancies_json: list) -> list:
@@ -77,8 +78,3 @@ class Vacancy:
                 and self.salary == other.salary
                 and self.experience == other.experience
             )
-
-
-if __name__ == "__main__":
-    vacancy = Vacancy("Python Developer", "https://...", 100000, "От 1 года до 2 лет")
-    print(vacancy.experience)
