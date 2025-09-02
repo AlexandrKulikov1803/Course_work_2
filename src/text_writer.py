@@ -5,28 +5,28 @@ from json import JSONDecodeError
 from src.file_writer import FileWriter
 from src.vacancy import Vacancy
 
-
-class JSONWriter(FileWriter):
-    """Абстрактный класс для работы с json-файлами"""
+class TXTWriter(FileWriter):
+    """Абстрактный класс для работы с txt-файлами"""
 
     __path_json_file: str
 
     directory = os.getcwd()
-    default_path_file = os.path.join(directory, "data", "vacancies.json")
+    default_path_file = os.path.join(directory, "data", "vacancies.txt")
 
     def __init__(self, path_file: str | None = default_path_file):
-        """Конструктор для имени json-файла"""
+        """Конструктор для имени txt-файла"""
 
         self.__path_json_file = path_file
 
     def get_data(self) -> list:
-        """Метод получения данных из json-файла"""
+        """Метод получения данных из txt-файла"""
 
         try:
             with open(self.__path_json_file, "r", encoding="utf-8") as file:
-                list_vacancies_json = json.load(file)
+                text = file.read()
+                list_vacancies_txt = json.loads(text)
 
-            list_vacancies_obj = Vacancy.cast_to_object_list(list_vacancies_json)
+            list_vacancies_obj = Vacancy.cast_to_object_list(list_vacancies_txt)
             return list_vacancies_obj
 
         except FileNotFoundError:
@@ -41,7 +41,7 @@ class JSONWriter(FileWriter):
             return []
 
     def add_data(self, new_vacancies: Vacancy | list[Vacancy]) -> None:
-        """Метод добавления данных в json-файл"""
+        """Метод добавления данных в txt-файл"""
 
         vacancies = self.get_data()
 
@@ -64,10 +64,11 @@ class JSONWriter(FileWriter):
                     "experience": vacancy.experience,
                 }
                 list_vacancies.append(vacancy_to_add)
-            json.dump(list_vacancies, file, ensure_ascii=False)
+            text = json.dumps(list_vacancies, ensure_ascii=False)
+            file.write(text)
 
     def del_data(self, new_vacancies: Vacancy | list[Vacancy] | None = None) -> None:
-        """Метод удаления данных json-файла"""
+        """Метод удаления данных txt-файла"""
 
         if new_vacancies is None:
             file = open(self.__path_json_file, "w")
@@ -94,10 +95,10 @@ class JSONWriter(FileWriter):
                         "experience": vacancy.experience,
                     }
                     list_vacancies.append(vacancy_to_add)
-                json.dump(list_vacancies, file, ensure_ascii=False)
+                text = json.dumps(list_vacancies, ensure_ascii=False)
+                file.write(text)
 
     @property
     def path_json_file(self) -> str:
         """Метод, который возвращает путь к файлу"""
-
         return self.__path_json_file

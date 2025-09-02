@@ -39,8 +39,12 @@ class HeadHunterAPI(BaseApi):
 
     @property
     def url(self) -> str:
+        """Метод, который возвращает url"""
+
         return self.__url
 
     @property
     def params(self) -> dict:
+        """Метод, который возвращает путь параметры api-запроса"""
+
         return self.__params
