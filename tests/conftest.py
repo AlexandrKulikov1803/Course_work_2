@@ -169,7 +169,7 @@ def response_api() -> dict:
 
 
 @pytest.fixture
-def list_vacancies() -> list:
+def list_vacancies_1() -> list:
     return [
         {
             "id": "124016761",
@@ -312,6 +312,20 @@ def list_vacancies() -> list:
             "is_adv_vacancy": False,
             "adv_context": None,
         },
+    ]
+
+
+@pytest.fixture
+def list_vacancies_2() -> list:
+    return [
+        {"name": "Python Developer", "url": "http://...", "salary": 100000, "experience": "Нет опыта"},
+        {"name": "Java Developer", "url": "http://...", "salary": 200000, "experience": "От 1 года до 3 лет"},
+        {"name": "Kotlin Developer", "url": "http://...", "salary": 300000, "experience": "От 3 до 6 лет"},
+        {"name": "JavaScript Developer", "url": "http://...", "salary": 400000, "experience": "Более 6 лет"},
+        {"name": "HTML Developer", "url": "http://...", "salary": 100000, "experience": "Нет опыта"},
+        {"name": "PHP Developer", "url": "http://...", "salary": 200000, "experience": "От 1 года до 3 лет"},
+        {"name": "C# Developer", "url": "http://...", "salary": 300000, "experience": "От 3 до 6 лет"},
+        {"name": "Go Developer", "url": "http://...", "salary": 400000, "experience": "Более 6 лет"},
     ]
 
 
