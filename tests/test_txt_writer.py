@@ -4,17 +4,16 @@ from typing import Any
 
 import pytest
 
-from src.text_writer import TXTWriter
+from src.txt_writer import TXTWriter
 from src.vacancy import Vacancy
-from tests.conftest import list_vacancies
 
 directory = os.getcwd()
 default_path_file = os.path.join(directory, "data", "vacancies.txt")
 
 
-def test_json_writer_init() -> None:
-    assert TXTWriter().path_json_file == default_path_file
-    assert TXTWriter("C:/vacancies.txt").path_json_file == "C:/vacancies.txt"
+def test_txt_writer_init() -> None:
+    assert TXTWriter().path_txt_file == default_path_file
+    assert TXTWriter("C:/vacancies.txt").path_txt_file == "C:/vacancies.txt"
 
 
 def test_get_data(file_data: list) -> None:
@@ -73,21 +72,21 @@ def test_get_data_incorrect_content(capsys: Any) -> None:
 
 def test_add_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
     path_file = os.path.join(directory, "data", "correct_content.txt")
-    json_saver = TXTWriter(path_file)
+    txt_saver = TXTWriter(path_file)
 
-    assert len(json_saver.get_data()) == 2
+    assert len(txt_saver.get_data()) == 2
 
-    json_saver.add_data(vacancy_1)
-    assert len(json_saver.get_data()) == 3
+    txt_saver.add_data(vacancy_1)
+    assert len(txt_saver.get_data()) == 3
 
     new_vacancies = Vacancy.cast_to_object_list(list_vacancies)
-    json_saver.add_data(new_vacancies)
-    assert len(json_saver.get_data()) == 5
+    txt_saver.add_data(new_vacancies)
+    assert len(txt_saver.get_data()) == 5
 
-    json_saver.add_data(new_vacancies)
-    assert len(json_saver.get_data()) == 5
+    txt_saver.add_data(new_vacancies)
+    assert len(txt_saver.get_data()) == 5
 
-    vacancy = json_saver.get_data()
+    vacancy = txt_saver.get_data()
     assert vacancy[2] == vacancy_1
     assert vacancy[3] == new_vacancies[0]
     assert vacancy[4] == new_vacancies[1]
@@ -95,22 +94,22 @@ def test_add_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
 
 def test_del_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
     path_file = os.path.join(directory, "data", "correct_content.txt")
-    json_saver = TXTWriter(path_file)
+    txt_saver = TXTWriter(path_file)
 
-    assert len(json_saver.get_data()) == 5
+    assert len(txt_saver.get_data()) == 5
 
-    json_saver.del_data(vacancy_1)
-    assert len(json_saver.get_data()) == 4
+    txt_saver.del_data(vacancy_1)
+    assert len(txt_saver.get_data()) == 4
 
     new_vacancies = Vacancy.cast_to_object_list(list_vacancies)
-    json_saver.del_data(new_vacancies)
-    assert len(json_saver.get_data()) == 2
+    txt_saver.del_data(new_vacancies)
+    assert len(txt_saver.get_data()) == 2
 
-    json_saver.del_data(new_vacancies)
-    assert len(json_saver.get_data()) == 2
+    txt_saver.del_data(new_vacancies)
+    assert len(txt_saver.get_data()) == 2
 
-    json_saver.del_data()
-    assert len(json_saver.get_data()) == 0
+    txt_saver.del_data()
+    assert len(txt_saver.get_data()) == 0
     with open(path_file, "r", encoding="UTF-8"):
         assert TXTWriter(path_file).get_data() == []
 

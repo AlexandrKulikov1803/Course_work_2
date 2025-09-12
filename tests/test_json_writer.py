@@ -6,7 +6,6 @@ import pytest
 
 from src.json_writer import JSONWriter
 from src.vacancy import Vacancy
-from tests.conftest import list_vacancies
 
 directory = os.getcwd()
 default_path_file = os.path.join(directory, "data", "vacancies.json")

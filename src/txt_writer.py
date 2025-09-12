@@ -5,10 +5,11 @@ from json import JSONDecodeError
 from src.file_writer import FileWriter
 from src.vacancy import Vacancy
 
+
 class TXTWriter(FileWriter):
     """Абстрактный класс для работы с txt-файлами"""
 
-    __path_json_file: str
+    __path_txt_file: str
 
     directory = os.getcwd()
     default_path_file = os.path.join(directory, "data", "vacancies.txt")
@@ -16,17 +17,17 @@ class TXTWriter(FileWriter):
     def __init__(self, path_file: str | None = default_path_file):
         """Конструктор для имени txt-файла"""
 
-        self.__path_json_file = path_file
+        self.__path_txt_file = path_file
 
     def get_data(self) -> list:
         """Метод получения данных из txt-файла"""
 
         try:
-            with open(self.__path_json_file, "r", encoding="utf-8") as file:
+            with open(self.__path_txt_file, "r", encoding="utf-8") as file:
                 text = file.read()
-                list_vacancies_txt = json.loads(text)
+                list_vacancies_dict = json.loads(text)
 
-            list_vacancies_obj = Vacancy.cast_to_object_list(list_vacancies_txt)
+            list_vacancies_obj = Vacancy.cast_to_object_list(list_vacancies_dict)
             return list_vacancies_obj
 
         except FileNotFoundError:
@@ -34,7 +35,7 @@ class TXTWriter(FileWriter):
             return []
 
         except JSONDecodeError:
-            if os.path.getsize(self.__path_json_file) == 0:
+            if os.path.getsize(self.__path_txt_file) == 0:
                 print("Файл пустой")  # логирование
             else:
                 print("Файл содержит некорректные данные")  # логирование
@@ -54,7 +55,7 @@ class TXTWriter(FileWriter):
                 if new_vacancy not in vacancies:
                     vacancies.append(new_vacancy)
 
-        with open(self.__path_json_file, "w", encoding="utf-8") as file:
+        with open(self.__path_txt_file, "w", encoding="utf-8") as file:
             list_vacancies = []
             for vacancy in vacancies:
                 vacancy_to_add = {
@@ -71,7 +72,7 @@ class TXTWriter(FileWriter):
         """Метод удаления данных txt-файла"""
 
         if new_vacancies is None:
-            file = open(self.__path_json_file, "w")
+            file = open(self.__path_txt_file, "w")
             file.close()
         else:
             vacancies = self.get_data()
@@ -85,7 +86,7 @@ class TXTWriter(FileWriter):
                     if new_vacancy in vacancies:
                         vacancies.remove(new_vacancy)
 
-            with open(self.__path_json_file, "w", encoding="utf-8") as file:
+            with open(self.__path_txt_file, "w", encoding="utf-8") as file:
                 list_vacancies = []
                 for vacancy in vacancies:
                     vacancy_to_add = {
@@ -99,6 +100,7 @@ class TXTWriter(FileWriter):
                 file.write(text)
 
     @property
-    def path_json_file(self) -> str:
+    def path_txt_file(self) -> str:
         """Метод, который возвращает путь к файлу"""
-        return self.__path_json_file
+
+        return self.__path_txt_file

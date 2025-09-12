@@ -24,9 +24,9 @@ class JSONWriter(FileWriter):
 
         try:
             with open(self.__path_json_file, "r", encoding="utf-8") as file:
-                list_vacancies_json = json.load(file)
+                list_vacancies_dict = json.load(file)
 
-            list_vacancies_obj = Vacancy.cast_to_object_list(list_vacancies_json)
+            list_vacancies_obj = Vacancy.cast_to_object_list(list_vacancies_dict)
             return list_vacancies_obj
 
         except FileNotFoundError:
