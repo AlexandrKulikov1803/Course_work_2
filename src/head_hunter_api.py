@@ -25,7 +25,7 @@ class HeadHunterAPI(BaseApi):
         else:
             return response.json()
 
-    def get_vacancies(self, keyword: str, per_page: int = 10) -> list:
+    def get_vacancies(self, keyword: str, per_page: int = 100) -> list:
         """Метод получения вакансий"""
 
         self.__params["text"] = keyword

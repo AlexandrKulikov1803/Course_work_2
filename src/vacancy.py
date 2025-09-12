@@ -8,7 +8,7 @@ class Vacancy:
     all_vacancies: list = []
 
     def __init__(
-        self, name: str, url: str, salary: None | int | dict = None, experience: None | str | dict = None
+            self, name: str, url: str, salary: None | int | dict = None, experience: None | str | dict = None
     ) -> None:
         """Конструктор для вакансии"""
 
@@ -19,6 +19,32 @@ class Vacancy:
 
         if self not in Vacancy.all_vacancies:
             Vacancy.all_vacancies.append(self)
+
+    def __str__(self) -> str:
+        """Метод для отображения информации пользователю о вакансии"""
+
+        return f"name: {self.name}, url: {self.url}, salary: {self.salary}, experience: {self.experience}"
+
+    def __ge__(self, other) -> bool:
+        """Метод для операции сравнения «больше или равно»."""
+
+        return self.salary >= other.salary
+
+    def __le__(self, other) -> bool:
+        """Метод для операции сравнения «меньше или равно»."""
+
+        return self.salary <= other.salary
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, Vacancy):
+            return False
+        else:
+            return (
+                    self.name == other.name
+                    and self.url == other.url
+                    and self.salary == other.salary
+                    and self.experience == other.experience
+            )
 
     @classmethod
     def cast_to_object_list(cls, list_vacancies_json: list) -> list:
@@ -57,24 +83,3 @@ class Vacancy:
             return experience
         elif isinstance(experience, dict):
             return experience["name"]
-
-    def __ge__(self, other) -> bool:
-        """Метод для операции сравнения «больше или равно»."""
-
-        return self.salary >= other.salary
-
-    def __le__(self, other) -> bool:
-        """Метод для операции сравнения «меньше или равно»."""
-
-        return self.salary <= other.salary
-
-    def __eq__(self, other) -> bool:
-        if not isinstance(other, Vacancy):
-            return False
-        else:
-            return (
-                self.name == other.name
-                and self.url == other.url
-                and self.salary == other.salary
-                and self.experience == other.experience
-            )

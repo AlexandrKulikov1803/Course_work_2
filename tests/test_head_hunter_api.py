@@ -24,15 +24,15 @@ def test_connect_to_api(mock_get: Mock, hh_api: HeadHunterAPI, response_api: dic
 
 @patch("src.head_hunter_api.HeadHunterAPI._connect_to_api")
 def test_get_vacancies(
-    mock_get: Mock, hh_api: HeadHunterAPI, response_api: dict, list_vacancies: list, capsys: Any
+    mock_get: Mock, hh_api: HeadHunterAPI, response_api: dict, list_vacancies_1: list, capsys: Any
 ) -> None:
     mock_get.return_value = response_api
-    assert hh_api.get_vacancies("Python", 2) == list_vacancies
+    assert hh_api.get_vacancies("Python", 2) == list_vacancies_1
     assert hh_api.params["text"] == "Python"
     assert hh_api.params["per_page"] == 2
 
-    assert hh_api.get_vacancies("Python") == list_vacancies
-    assert hh_api.params["per_page"] == 10
+    assert hh_api.get_vacancies("Python") == list_vacancies_1
+    assert hh_api.params["per_page"] == 100
 
     mock_get.return_value = {}
     assert hh_api.get_vacancies("Python", 2) == []

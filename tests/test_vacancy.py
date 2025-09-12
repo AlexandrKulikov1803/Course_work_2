@@ -9,11 +9,32 @@ def test_vacancy_init(vacancy_1: Vacancy) -> None:
     assert vacancy_1.salary == 100000
     assert vacancy_1.experience == "3 года"
 
-    assert len(Vacancy.all_vacancies) == 5
+    assert len(Vacancy.all_vacancies) == 13
 
 
-def test_cast_to_object_list(list_vacancies: list) -> None:
-    vacancies = Vacancy.cast_to_object_list(list_vacancies)
+def test_vacancy_str(vacancy_1: Vacancy) -> None:
+    assert str(
+        vacancy_1) == "name: Python Developer, url: https://hh.ru/vacancy/123456, salary: 100000, experience: 3 года"
+
+
+def test_vacancy_ge(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
+    assert vacancy_1 >= vacancy_2
+    assert not vacancy_2 >= vacancy_1
+
+
+def test_vacancy_le(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
+    assert vacancy_2 <= vacancy_1
+    assert not vacancy_1 <= vacancy_2
+
+
+def test_vacancy_eq(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
+    assert vacancy_1 == vacancy_1
+    assert not vacancy_1 == vacancy_2
+    assert not vacancy_1 == 1
+
+
+def test_cast_to_object_list(list_vacancies_1: list) -> None:
+    vacancies = Vacancy.cast_to_object_list(list_vacancies_1)
 
     assert vacancies[0].name == "Middle Backend-разработчик (Python)"
     assert vacancies[0].url == "https://api.hh.ru/vacancies/124016761?host=hh.ru"
@@ -54,19 +75,3 @@ def test_validation_by_salary(salary: None | int | dict, expected_result: str | 
 )
 def test_validation_by_experience(experience: None | str | dict, expected_result: str) -> None:
     assert Vacancy._validation_by_experience(experience) == expected_result
-
-
-def test_vacancy_ge(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
-    assert vacancy_1 >= vacancy_2
-    assert not vacancy_2 >= vacancy_1
-
-
-def test_vacancy_le(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
-    assert vacancy_2 <= vacancy_1
-    assert not vacancy_1 <= vacancy_2
-
-
-def test_vacancy_eq(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
-    assert vacancy_1 == vacancy_1
-    assert not vacancy_1 == vacancy_2
-    assert not vacancy_1 == 1

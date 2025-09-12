@@ -64,7 +64,7 @@ def test_get_data_empty_file(capsys: Any) -> None:
     os.remove(path_file)
 
 
-def test_add_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
+def test_add_data(vacancy_1: Vacancy, list_vacancies_1: list) -> None:
     path_file = os.path.join(directory, "data", "correct_content.csv")
     xlsx_saver = CSVWriter(path_file)
 
@@ -73,7 +73,7 @@ def test_add_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
     xlsx_saver.add_data(vacancy_1)
     assert len(xlsx_saver.get_data()) == 3
 
-    new_vacancies = Vacancy.cast_to_object_list(list_vacancies)
+    new_vacancies = Vacancy.cast_to_object_list(list_vacancies_1)
     xlsx_saver.add_data(new_vacancies)
     assert len(xlsx_saver.get_data()) == 5
 
@@ -86,7 +86,7 @@ def test_add_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
     assert vacancy[4] == new_vacancies[1]
 
 
-def test_del_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
+def test_del_data(vacancy_1: Vacancy, list_vacancies_1: list) -> None:
     path_file = os.path.join(directory, "data", "correct_content.csv")
     csv_saver = CSVWriter(path_file)
 
@@ -95,7 +95,7 @@ def test_del_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
     csv_saver.del_data(vacancy_1)
     assert len(csv_saver.get_data()) == 4
 
-    new_vacancies = Vacancy.cast_to_object_list(list_vacancies)
+    new_vacancies = Vacancy.cast_to_object_list(list_vacancies_1)
     csv_saver.del_data(new_vacancies)
     assert len(csv_saver.get_data()) == 2
 

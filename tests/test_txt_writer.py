@@ -70,7 +70,7 @@ def test_get_data_incorrect_content(capsys: Any) -> None:
     os.remove(path_file)
 
 
-def test_add_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
+def test_add_data(vacancy_1: Vacancy, list_vacancies_1: list) -> None:
     path_file = os.path.join(directory, "data", "correct_content.txt")
     txt_saver = TXTWriter(path_file)
 
@@ -79,7 +79,7 @@ def test_add_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
     txt_saver.add_data(vacancy_1)
     assert len(txt_saver.get_data()) == 3
 
-    new_vacancies = Vacancy.cast_to_object_list(list_vacancies)
+    new_vacancies = Vacancy.cast_to_object_list(list_vacancies_1)
     txt_saver.add_data(new_vacancies)
     assert len(txt_saver.get_data()) == 5
 
@@ -92,7 +92,7 @@ def test_add_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
     assert vacancy[4] == new_vacancies[1]
 
 
-def test_del_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
+def test_del_data(vacancy_1: Vacancy, list_vacancies_1: list) -> None:
     path_file = os.path.join(directory, "data", "correct_content.txt")
     txt_saver = TXTWriter(path_file)
 
@@ -101,7 +101,7 @@ def test_del_data(vacancy_1: Vacancy, list_vacancies: list) -> None:
     txt_saver.del_data(vacancy_1)
     assert len(txt_saver.get_data()) == 4
 
-    new_vacancies = Vacancy.cast_to_object_list(list_vacancies)
+    new_vacancies = Vacancy.cast_to_object_list(list_vacancies_1)
     txt_saver.del_data(new_vacancies)
     assert len(txt_saver.get_data()) == 2
 
