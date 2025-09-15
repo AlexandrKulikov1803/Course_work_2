@@ -2,8 +2,13 @@ import json
 import os
 from json import JSONDecodeError
 
+from logging_config import setup_logger
 from src.file_writer import FileWriter
 from src.vacancy import Vacancy
+
+path_logger = os.path.join(os.getcwd(), "log")
+os.makedirs(path_logger, exist_ok=True)
+logger = setup_logger("json_writer", f"{path_logger}/json_writer.txt")
 
 
 class JSONWriter(FileWriter):
@@ -26,25 +31,31 @@ class JSONWriter(FileWriter):
         """Метод получения данных из json-файла"""
 
         try:
+            logger.info("Началось считывание данных из json-файла")
+
             with open(self.__path_json_file, "r", encoding="utf-8") as file:
                 list_vacancies_dict = json.load(file)
 
             list_vacancies_obj = Vacancy.cast_to_object_list(list_vacancies_dict)
+            logger.info("Данные из json-файла успешно получены")
+
             return list_vacancies_obj
 
         except FileNotFoundError:
-            print("Файл не найден")  # логирование
+            logger.error("Файл не найден")
             return []
 
         except JSONDecodeError:
             if os.path.getsize(self.__path_json_file) == 0:
-                print("Файл пустой")  # логирование
+                logger.error("Файл пустой")
             else:
-                print("Файл содержит некорректные данные")  # логирование
+                logger.error("Файл содержит некорректные данные")
             return []
 
     def add_data(self, new_vacancies: Vacancy | list[Vacancy]) -> None:
         """Метод добавления данных в json-файл"""
+
+        logger.info("Началось добавление данных в json-файл")
 
         vacancies = self.get_data()
 
@@ -69,12 +80,18 @@ class JSONWriter(FileWriter):
                 list_vacancies.append(vacancy_to_add)
             json.dump(list_vacancies, file, ensure_ascii=False)
 
+        logger.info("Данные в json-файл успешно добавлены")
+
     def del_data(self, new_vacancies: Vacancy | list[Vacancy] | None = None) -> None:
         """Метод удаления данных json-файла"""
+
+        logger.info("Началось удаление данных из json-файла")
 
         if new_vacancies is None:
             file = open(self.__path_json_file, "w")
             file.close()
+
+            logger.info("Данные из json-файла полностью удалены")
         else:
             vacancies = self.get_data()
 
@@ -98,6 +115,8 @@ class JSONWriter(FileWriter):
                     }
                     list_vacancies.append(vacancy_to_add)
                 json.dump(list_vacancies, file, ensure_ascii=False)
+
+            logger.info("Вакансии из json-файла успешно удалены")
 
     @property
     def path_json_file(self) -> str:

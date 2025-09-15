@@ -2,8 +2,13 @@ import json
 import os
 from json import JSONDecodeError
 
+from logging_config import setup_logger
 from src.file_writer import FileWriter
 from src.vacancy import Vacancy
+
+path_logger = os.path.join(os.getcwd(), "log")
+os.makedirs(path_logger, exist_ok=True)
+logger = setup_logger("txt_writer", f"{path_logger}/txt_writer.txt")
 
 
 class TXTWriter(FileWriter):
@@ -26,26 +31,32 @@ class TXTWriter(FileWriter):
         """Метод получения данных из txt-файла"""
 
         try:
+            logger.info("Началось считывание данных из txt-файла")
+
             with open(self.__path_txt_file, "r", encoding="utf-8") as file:
                 text = file.read()
                 list_vacancies_dict = json.loads(text)
 
             list_vacancies_obj = Vacancy.cast_to_object_list(list_vacancies_dict)
+            logger.info("Данные из txt-файла успешно получены")
+
             return list_vacancies_obj
 
         except FileNotFoundError:
-            print("Файл не найден")  # логирование
+            logger.error("Файл не найден")
             return []
 
         except JSONDecodeError:
             if os.path.getsize(self.__path_txt_file) == 0:
-                print("Файл пустой")  # логирование
+                logger.error("Файл пустой")
             else:
-                print("Файл содержит некорректные данные")  # логирование
+                logger.error("Файл содержит некорректные данные")
             return []
 
     def add_data(self, new_vacancies: Vacancy | list[Vacancy]) -> None:
         """Метод добавления данных в txt-файл"""
+
+        logger.info("Началось добавление данных в txt-файл")
 
         vacancies = self.get_data()
 
@@ -71,12 +82,18 @@ class TXTWriter(FileWriter):
             text = json.dumps(list_vacancies, ensure_ascii=False)
             file.write(text)
 
+        logger.info("Данные в txt-файл успешно добавлены")
+
     def del_data(self, new_vacancies: Vacancy | list[Vacancy] | None = None) -> None:
         """Метод удаления данных txt-файла"""
+
+        logger.info("Началось удаление данных из txt-файла")
 
         if new_vacancies is None:
             file = open(self.__path_txt_file, "w")
             file.close()
+
+            logger.info("Данные из txt-файла полностью удалены")
         else:
             vacancies = self.get_data()
 
@@ -101,6 +118,8 @@ class TXTWriter(FileWriter):
                     list_vacancies.append(vacancy_to_add)
                 text = json.dumps(list_vacancies, ensure_ascii=False)
                 file.write(text)
+
+            logger.info("Вакансии из txt-файла успешно удалены")
 
     @property
     def path_txt_file(self) -> str:

@@ -2,8 +2,13 @@ import os
 
 import pandas as pd
 
+from logging_config import setup_logger
 from src.file_writer import FileWriter
 from src.vacancy import Vacancy
+
+path_logger = os.path.join(os.getcwd(), "log")
+os.makedirs(path_logger, exist_ok=True)
+logger = setup_logger("xlsx_writer", f"{path_logger}/xlsx_writer.txt")
 
 
 class XLSXWriter(FileWriter):
@@ -26,25 +31,30 @@ class XLSXWriter(FileWriter):
         """Метод получения данных из xlsx-файла"""
 
         try:
+            logger.info("Началось считывание данных из xlsx-файла")
+
             df = pd.read_excel(self.__path_xlsx_file)
             list_vacancies_dict = df.to_dict(orient="records")
 
             list_vacancies_obj = Vacancy.cast_to_object_list(list_vacancies_dict)
             if not list_vacancies_obj:
-                print("Файл пустой")  # логирование
+                logger.error("Файл пустой")
                 return []
             elif len(list_vacancies_dict[0]) > 4:
-                print("Файл содержит некорректные данные")  # логирование
+                logger.error("Файл содержит некорректные данные")
                 return []
             else:
+                logger.info("Данные из xlsx-файла успешно получены")
                 return list_vacancies_obj
 
         except FileNotFoundError:
-            print("Файл не найден")  # логирование
+            logger.error("Файл не найден")
             return []
 
     def add_data(self, new_vacancies: Vacancy | list[Vacancy]) -> None:
         """Метод добавления данных в xlsx-файл"""
+
+        logger.info("Началось добавление данных в xlsx-файл")
 
         vacancies = self.get_data()
 
@@ -70,12 +80,18 @@ class XLSXWriter(FileWriter):
         df_vacancies = pd.DataFrame(list_vacancies)
         df_vacancies.to_excel(self.__path_xlsx_file, index=False)
 
+        logger.info("Данные в xlsx-файл успешно добавлены")
+
     def del_data(self, new_vacancies: Vacancy | list[Vacancy] | None = None) -> None:
         """Метод удаления данных xlsx-файла"""
+
+        logger.info("Началось удаление данных из xlsx-файла")
 
         if new_vacancies is None:
             df = pd.DataFrame({"name": [], "url": [], "salary": [], "experience": []})
             df.to_excel(self.__path_xlsx_file, index=False)
+
+            logger.info("Данные из xlsx-файла полностью удалены")
         else:
             vacancies = self.get_data()
 
@@ -100,6 +116,8 @@ class XLSXWriter(FileWriter):
 
             df_vacancies = pd.DataFrame(list_vacancies)
             df_vacancies.to_excel(self.__path_xlsx_file, index=False)
+
+            logger.info("Вакансии из xlsx-файла успешно удалены")
 
     @property
     def path_xlsx_file(self) -> str:

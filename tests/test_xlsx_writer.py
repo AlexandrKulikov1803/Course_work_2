@@ -40,27 +40,24 @@ def test_get_data(file_data: list) -> None:
         print(list_vacancies[2])
 
 
-def test_get_data_non_existent_file(capsys: Any) -> None:
+def test_get_data_non_existent_file() -> None:
     path_file = os.path.join(directory, "data", "non-existent_file.xlsx")
     assert XLSXWriter(path_file).get_data() == []
 
-    message = capsys.readouterr()
-    assert message.out.strip() == "Файл не найден"
 
 
-def test_get_data_empty_file(capsys: Any) -> None:
+
+def test_get_data_empty_file() -> None:
     path_file = os.path.join(directory, "data", "empty_file.xlsx")
     df = pd.DataFrame()
     df.to_excel(path_file, index=False)
     assert XLSXWriter(path_file).get_data() == []
 
-    message = capsys.readouterr()
-    assert message.out.strip() == "Файл пустой"
 
     os.remove(path_file)
 
 
-def test_get_data_incorrect_content(capsys: Any) -> None:
+def test_get_data_incorrect_content() -> None:
     path_file = os.path.join(directory, "data", "incorrect_content.xlsx")
     df = pd.DataFrame(
         {
@@ -74,8 +71,7 @@ def test_get_data_incorrect_content(capsys: Any) -> None:
     df.to_excel(path_file, index=False)
     assert XLSXWriter(path_file).get_data() == []
 
-    message = capsys.readouterr()
-    assert message.out.strip() == "Файл содержит некорректные данные"
+
 
     os.remove(path_file)
 

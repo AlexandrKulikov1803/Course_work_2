@@ -1,3 +1,12 @@
+import os
+
+from logging_config import setup_logger
+
+path_logger = os.path.join(os.getcwd(), "log")
+os.makedirs(path_logger, exist_ok=True)
+logger = setup_logger("vacancy", f"{path_logger}/vacancy.txt")
+
+
 class Vacancy:
     __slots__ = ("name", "url", "salary", "experience")
 
@@ -50,6 +59,8 @@ class Vacancy:
     def cast_to_object_list(cls, list_vacancies_json: list) -> list:
         """Метод преобразования набора данных из JSON в список объектов"""
 
+        logger.info("Началось преобразования набора данных из JSON в список объектов")
+
         list_vacancies_obj = []
 
         for vacancy in list_vacancies_json:
@@ -59,6 +70,8 @@ class Vacancy:
             experience = vacancy["experience"]
             vacancy_obj = cls(name, url, salary, experience)
             list_vacancies_obj.append(vacancy_obj)
+
+        logger.info("Преобразование успешно завершено")
 
         return list_vacancies_obj
 

@@ -1,6 +1,13 @@
+import os
+
 import requests
 
+from logging_config import setup_logger
 from src.base_api import BaseApi
+
+path_logger = os.path.join(os.getcwd(), "log")
+os.makedirs(path_logger, exist_ok=True)
+logger = setup_logger("head_hunter_api", f"{path_logger}/head_hunter_api.txt")
 
 
 class HeadHunterAPI(BaseApi):
@@ -18,23 +25,29 @@ class HeadHunterAPI(BaseApi):
     def _connect_to_api(self) -> dict:
         """Метод подключения к API hh.ru"""
 
+        logger.info("Началось подключение к API hh.ru")
+
         response = requests.get(self.__url, params=self.__params)
         if response.status_code != 200:
-            print("Возникла ошибка при подключении к внешнему сервису API")  # логирование
+            logger.error("Возникла ошибка при подключении к внешнему сервису API")
             return dict()
         else:
+            logger.info("Подключение к внешнему сервису API прошло успешно")
             return response.json()
 
     def get_vacancies(self, keyword: str, per_page: int = 100) -> list:
         """Метод получения вакансий"""
 
+        logger.info("Началось получение вакансий")
+
         self.__params["text"] = keyword
         self.__params["per_page"] = per_page
         list_vacancies = self._connect_to_api().get("items")
         if list_vacancies is None:
-            print("Вакансии не найдены")  # логирование
+            logger.error("Вакансии не найдены")
             return []
         else:
+            logger.info("Вакансии успешно получены")
             return list_vacancies
 
     @property

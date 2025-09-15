@@ -3,8 +3,13 @@ import os
 import pandas
 import pandas as pd
 
+from logging_config import setup_logger
 from src.file_writer import FileWriter
 from src.vacancy import Vacancy
+
+path_logger = os.path.join(os.getcwd(), "log")
+os.makedirs(path_logger, exist_ok=True)
+logger = setup_logger("csv_writer", f"{path_logger}/csv_writer.txt")
 
 
 class CSVWriter(FileWriter):
@@ -27,9 +32,12 @@ class CSVWriter(FileWriter):
         """Метод получения данных из csv-файла"""
 
         try:
+            logger.info("Началось считывание данных из csv-файла")
+
             df = pd.read_csv(self.__path_csv_file, delimiter=";", encoding="utf-8-sig")
             df["salary"] = df["salary"].fillna("Не указана")
             list_vacancies_dict = df.to_dict(orient="records")
+
             for vacancy in list_vacancies_dict:
                 if vacancy["salary"] != "Не указана":
                     vacancy["salary"] = int(vacancy["salary"])
@@ -37,20 +45,23 @@ class CSVWriter(FileWriter):
             list_vacancies_obj = Vacancy.cast_to_object_list(list_vacancies_dict)
 
             if not list_vacancies_obj:
-                print("Файл пустой")  # логирование
+                logger.error("Файл пустой")
                 return []
             else:
+                logger.info("Данные из csv-файла успешно получены")
                 return list_vacancies_obj
 
         except FileNotFoundError:
-            print("Файл не найден")  # логирование
+            logger.error("Файл не найден")
             return []
         except pandas.errors.EmptyDataError:
-            print("Файл пустой")  # логирование
+            logger.error("Файл пустой")
             return []
 
     def add_data(self, new_vacancies: Vacancy | list[Vacancy]) -> None:
         """Метод добавления данных в csv-файл"""
+
+        logger.info("Началось добавление данных в csv-файл")
 
         vacancies = self.get_data()
 
@@ -76,12 +87,18 @@ class CSVWriter(FileWriter):
         df_vacancies = pd.DataFrame(list_vacancies)
         df_vacancies.to_csv(self.__path_csv_file, index=False, encoding="utf-8-sig", sep=";")
 
+        logger.info("Данные в csv-файл успешно добавлены")
+
     def del_data(self, new_vacancies: Vacancy | list[Vacancy] | None = None) -> None:
         """Метод удаления данных csv-файла"""
+
+        logger.info("Началось удаление данных из csv-файла")
 
         if new_vacancies is None:
             df = pd.DataFrame({"name": [], "url": [], "salary": [], "experience": []})
             df.to_csv(self.__path_csv_file, index=False, encoding="utf-8-sig", sep=";")
+
+            logger.info("Данные из csv-файла полностью удалены")
         else:
             vacancies = self.get_data()
 
@@ -106,6 +123,8 @@ class CSVWriter(FileWriter):
 
             df_vacancies = pd.DataFrame(list_vacancies)
             df_vacancies.to_csv(self.__path_csv_file, index=False, encoding="utf-8-sig", sep=";")
+
+            logger.info("Вакансии из csv-файла успешно удалены")
 
     @property
     def path_csv_file(self) -> str:

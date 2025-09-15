@@ -37,30 +37,25 @@ def test_get_data(file_data: list) -> None:
         print(list_vacancies[2])
 
 
-def test_get_data_non_existent_file(capsys: Any) -> None:
+def test_get_data_non_existent_file() -> None:
     path_file = os.path.join(directory, "data", "non-existent_file.csv")
     assert CSVWriter(path_file).get_data() == []
 
-    message = capsys.readouterr()
-    assert message.out.strip() == "Файл не найден"
 
 
-def test_get_data_empty_file(capsys: Any) -> None:
+def test_get_data_empty_file() -> None:
     path_file = os.path.join(directory, "data", "empty_file.csv")
     df = pd.DataFrame()
     df.to_csv(path_file, index=False, encoding="utf-8", sep=";")
     assert CSVWriter(path_file).get_data() == []
 
-    message = capsys.readouterr()
-    assert message.out.strip() == "Файл пустой"
+
 
     df = pd.DataFrame({"name": [], "url": [], "salary": [], "experience": []})
 
     df.to_csv(path_file, index=False, encoding="utf-8", sep=";")
     assert CSVWriter(path_file).get_data() == []
 
-    message = capsys.readouterr()
-    assert message.out.strip() == "Файл пустой"
 
     os.remove(path_file)
 

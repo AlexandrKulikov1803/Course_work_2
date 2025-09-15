@@ -37,27 +37,24 @@ def test_get_data(file_data: list) -> None:
         print(list_vacancies[2])
 
 
-def test_get_data_non_existent_file(capsys: Any) -> None:
+def test_get_data_non_existent_file() -> None:
     path_file = os.path.join(directory, "data", "non-existent_file.json")
     assert JSONWriter(path_file).get_data() == []
 
-    message = capsys.readouterr()
-    assert message.out.strip() == "Файл не найден"
 
 
-def test_get_data_empty_file(capsys: Any) -> None:
+def test_get_data_empty_file() -> None:
     path_file = os.path.join(directory, "data", "empty_file.json")
 
     with open(path_file, "a", encoding="UTF-8"):
         assert JSONWriter(path_file).get_data() == []
 
-    message = capsys.readouterr()
-    assert message.out.strip() == "Файл пустой"
+
 
     os.remove(path_file)
 
 
-def test_get_data_incorrect_content(capsys: Any) -> None:
+def test_get_data_incorrect_content() -> None:
     path_file = os.path.join(directory, "data", "incorrect_content.json")
 
     with open(path_file, "a", encoding="UTF-8") as file:
@@ -65,8 +62,7 @@ def test_get_data_incorrect_content(capsys: Any) -> None:
 
     assert JSONWriter(path_file).get_data() == []
 
-    message = capsys.readouterr()
-    assert message.out.strip() == "Файл содержит некорректные данные"
+
 
     os.remove(path_file)
 
