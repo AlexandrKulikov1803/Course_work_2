@@ -1,6 +1,6 @@
 from typing import Any
 
-from src.utils import filter_vacancies, sort_vacancies, get_top_vacancies, print_vacancies, get_vacancies_by_salary
+from src.utils import filter_vacancies, get_top_vacancies, get_vacancies_by_salary, print_vacancies, sort_vacancies
 from src.vacancy import Vacancy
 
 
@@ -31,9 +31,10 @@ def test_filter_vacancies(list_vacancies_2: list) -> None:
 
 def test_get_vacancies_by_salary(list_vacancies_2: list) -> None:
     vacancies = Vacancy.cast_to_object_list(list_vacancies_2)
-    ranged_vacancies = get_vacancies_by_salary(vacancies, '150000 -320000')
+    ranged_vacancies = get_vacancies_by_salary(vacancies, "150000 -320000")
 
     assert len(ranged_vacancies) == 4
+
 
 def test_sort_vacancies(list_vacancies_2: list) -> None:
     vacancies = Vacancy.cast_to_object_list(list_vacancies_2)
@@ -59,11 +60,13 @@ def test_print_vacancies(list_vacancies_1: list, capsys: Any) -> None:
     vacancies = Vacancy.cast_to_object_list(list_vacancies_1)
     print_vacancies(vacancies)
     message = capsys.readouterr()
-    assert message.out.strip() == ("name: Middle Backend-разработчик (Python), "
-                                   "url: https://api.hh.ru/vacancies/124016761?host=hh.ru, "
-                                   "salary: Не указана, "
-                                   "experience: От 3 до 6 лет\n"
-                                   "name: Backend-разработчик, "
-                                   "url: https://api.hh.ru/vacancies/124008575?host=hh.ru, "
-                                   "salary: 40000, "
-                                   "experience: От 3 до 6 лет")
+    assert message.out.strip() == (
+        "name: Middle Backend-разработчик (Python), "
+        "url: https://api.hh.ru/vacancies/124016761?host=hh.ru, "
+        "salary: Не указана, "
+        "experience: От 3 до 6 лет\n"
+        "name: Backend-разработчик, "
+        "url: https://api.hh.ru/vacancies/124008575?host=hh.ru, "
+        "salary: 40000, "
+        "experience: От 3 до 6 лет"
+    )

@@ -13,6 +13,7 @@ default_path_file = os.path.join(directory, "data", "vacancies.json")
 
 def test_json_writer_init() -> None:
     assert JSONWriter().path_json_file == default_path_file
+    assert JSONWriter("").path_json_file == default_path_file
     assert JSONWriter("C:/vacancies.json").path_json_file == "C:/vacancies.json"
 
 

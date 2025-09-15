@@ -340,7 +340,7 @@ def vacancy_2() -> Vacancy:
 
 
 @pytest.fixture
-def file_data(null=None) -> list:
+def file_data(null: None = None) -> list[dict]:
     return [
         {
             "name": "Аналитик данных (Data Analyst)",

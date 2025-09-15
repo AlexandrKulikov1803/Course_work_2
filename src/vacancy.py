@@ -3,12 +3,12 @@ class Vacancy:
 
     name: str
     url: str
-    salary: str | int
+    salary: int | str
     experience: str
     all_vacancies: list = []
 
     def __init__(
-            self, name: str, url: str, salary: None | int | dict = None, experience: None | str | dict = None
+        self, name: str, url: str, salary: None | int | dict = None, experience: None | str | dict = None
     ) -> None:
         """Конструктор для вакансии"""
 
@@ -25,25 +25,25 @@ class Vacancy:
 
         return f"name: {self.name}, url: {self.url}, salary: {self.salary}, experience: {self.experience}"
 
-    def __ge__(self, other) -> bool:
+    def __ge__(self, other: "Vacancy") -> bool:
         """Метод для операции сравнения «больше или равно»."""
 
         return self.salary >= other.salary
 
-    def __le__(self, other) -> bool:
+    def __le__(self, other: "Vacancy") -> bool:
         """Метод для операции сравнения «меньше или равно»."""
 
         return self.salary <= other.salary
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         if not isinstance(other, Vacancy):
             return False
         else:
             return (
-                    self.name == other.name
-                    and self.url == other.url
-                    and self.salary == other.salary
-                    and self.experience == other.experience
+                self.name == other.name
+                and self.url == other.url
+                and self.salary == other.salary
+                and self.experience == other.experience
             )
 
     @classmethod

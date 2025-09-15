@@ -70,4 +70,4 @@ def print_vacancies(vacancies_list: list) -> None:
 def skip_vacancies_without_salary(vacancies_list: list) -> list:
     """Функция, которая позволяет пропустить вакансии без указанной заработной платы"""
 
-    return [vacancy for vacancy in vacancies_list if vacancy.salary != "Не указана"]
+    return [vacancy for vacancy in vacancies_list if isinstance(vacancy.salary, int)]

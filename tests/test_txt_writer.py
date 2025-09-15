@@ -13,6 +13,7 @@ default_path_file = os.path.join(directory, "data", "vacancies.txt")
 
 def test_txt_writer_init() -> None:
     assert TXTWriter().path_txt_file == default_path_file
+    assert TXTWriter("").path_txt_file == default_path_file
     assert TXTWriter("C:/vacancies.txt").path_txt_file == "C:/vacancies.txt"
 
 

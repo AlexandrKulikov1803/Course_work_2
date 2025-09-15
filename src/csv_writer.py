@@ -15,10 +15,13 @@ class CSVWriter(FileWriter):
     directory = os.getcwd()
     default_path_file = os.path.join(directory, "data", "vacancies.csv")
 
-    def __init__(self, path_file: str | None = default_path_file):
+    def __init__(self, path_file: str | None = None) -> None:
         """Конструктор для имени csv-файла"""
 
-        self.__path_csv_file = path_file
+        if path_file == "" or path_file is None:
+            self.__path_csv_file = self.default_path_file
+        else:
+            self.__path_csv_file = path_file
 
     def get_data(self) -> list:
         """Метод получения данных из csv-файла"""

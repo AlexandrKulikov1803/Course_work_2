@@ -13,8 +13,10 @@ def test_vacancy_init(vacancy_1: Vacancy) -> None:
 
 
 def test_vacancy_str(vacancy_1: Vacancy) -> None:
-    assert str(
-        vacancy_1) == "name: Python Developer, url: https://hh.ru/vacancy/123456, salary: 100000, experience: 3 года"
+    assert (
+        str(vacancy_1)
+        == "name: Python Developer, url: https://hh.ru/vacancy/123456, salary: 100000, experience: 3 года"
+    )
 
 
 def test_vacancy_ge(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:

@@ -13,6 +13,7 @@ default_path_file = os.path.join(directory, "data", "vacancies.csv")
 
 def test_csv_writer_init() -> None:
     assert CSVWriter().path_csv_file == default_path_file
+    assert CSVWriter("").path_csv_file == default_path_file
     assert CSVWriter("C:/vacancies.csv").path_csv_file == "C:/vacancies.csv"
 
 

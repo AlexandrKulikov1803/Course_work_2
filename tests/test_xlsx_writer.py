@@ -14,6 +14,7 @@ default_path_file = os.path.join(directory, "data", "vacancies.xlsx")
 
 def test_xlsx_writer_init() -> None:
     assert XLSXWriter().path_xlsx_file == default_path_file
+    assert XLSXWriter("").path_xlsx_file == default_path_file
     assert XLSXWriter("C:/vacancies.xlsx").path_xlsx_file == "C:/vacancies.xlsx"
 
 
