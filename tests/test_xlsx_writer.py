@@ -1,6 +1,5 @@
 import os
 import warnings
-from typing import Any
 
 import pandas as pd
 import pytest
@@ -45,14 +44,11 @@ def test_get_data_non_existent_file() -> None:
     assert XLSXWriter(path_file).get_data() == []
 
 
-
-
 def test_get_data_empty_file() -> None:
     path_file = os.path.join(directory, "data", "empty_file.xlsx")
     df = pd.DataFrame()
     df.to_excel(path_file, index=False)
     assert XLSXWriter(path_file).get_data() == []
-
 
     os.remove(path_file)
 
@@ -70,8 +66,6 @@ def test_get_data_incorrect_content() -> None:
     )
     df.to_excel(path_file, index=False)
     assert XLSXWriter(path_file).get_data() == []
-
-
 
     os.remove(path_file)
 

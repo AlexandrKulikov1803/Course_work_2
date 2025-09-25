@@ -30,7 +30,7 @@ mypy = "^1.17.1"
 
 [tool.mypy]
 disallow_untyped_defs = true
-warn_return_any = false
+warn_return_any = true
 exclude = ".venv"
 
 [tool.black]

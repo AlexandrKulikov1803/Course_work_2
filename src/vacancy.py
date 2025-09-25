@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 from logging_config import setup_logger
 
@@ -37,14 +38,22 @@ class Vacancy:
     def __ge__(self, other: "Vacancy") -> bool:
         """Метод для операции сравнения «больше или равно»."""
 
-        return self.salary >= other.salary
+        if isinstance(other.salary, int) and isinstance(self.salary, int):
+            return self.salary >= other.salary
+        else:
+            return False
 
-    def __le__(self, other: "Vacancy") -> bool:
+    def __le__(self, other: Any) -> bool:
         """Метод для операции сравнения «меньше или равно»."""
 
-        return self.salary <= other.salary
+        if isinstance(other.salary, int) and isinstance(self.salary, int):
+            return self.salary <= other.salary
+        else:
+            return False
 
     def __eq__(self, other: object) -> bool:
+        """Метод для операции сравнения на равенство классов."""
+
         if not isinstance(other, Vacancy):
             return False
         else:
@@ -76,7 +85,7 @@ class Vacancy:
         return list_vacancies_obj
 
     @staticmethod
-    def _validation_by_salary(salary: None | int | dict) -> str | int:
+    def _validation_by_salary(salary: None | int | dict) -> Any:
         """Метод для валидация по заработной плате"""
 
         if isinstance(salary, int):
@@ -87,7 +96,7 @@ class Vacancy:
             return "Не указана"
 
     @staticmethod
-    def _validation_by_experience(experience: None | str | dict) -> str:
+    def _validation_by_experience(experience: None | str | dict) -> Any:
         """Метод для валидация по опыту работы"""
 
         if experience is None:

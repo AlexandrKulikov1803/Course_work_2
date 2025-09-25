@@ -1,4 +1,5 @@
 import os
+from typing import Any
 
 import requests
 
@@ -22,7 +23,7 @@ class HeadHunterAPI(BaseApi):
         self.__url = "https://api.hh.ru/vacancies"
         self.__params = dict()
 
-    def _connect_to_api(self) -> dict:
+    def _connect_to_api(self) -> Any:
         """Метод подключения к API hh.ru"""
 
         logger.info("Началось подключение к API hh.ru")
@@ -30,12 +31,12 @@ class HeadHunterAPI(BaseApi):
         response = requests.get(self.__url, params=self.__params)
         if response.status_code != 200:
             logger.error("Возникла ошибка при подключении к внешнему сервису API")
-            return dict()
+            return {}
         else:
             logger.info("Подключение к внешнему сервису API прошло успешно")
             return response.json()
 
-    def get_vacancies(self, keyword: str, per_page: int = 100) -> list:
+    def get_vacancies(self, keyword: str, per_page: int = 100) -> Any:
         """Метод получения вакансий"""
 
         logger.info("Началось получение вакансий")
@@ -61,3 +62,7 @@ class HeadHunterAPI(BaseApi):
         """Метод, который возвращает путь параметры api-запроса"""
 
         return self.__params
+
+a = HeadHunterAPI()
+print(a._connect_to_api())
+print(type(a._connect_to_api()))

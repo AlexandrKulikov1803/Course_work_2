@@ -1,6 +1,5 @@
 import sys
 
-
 from src.csv_writer import CSVWriter
 from src.file_writer import FileWriter
 from src.head_hunter_api import HeadHunterAPI

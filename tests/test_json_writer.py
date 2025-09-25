@@ -1,6 +1,5 @@
 import json
 import os
-from typing import Any
 
 import pytest
 
@@ -42,14 +41,11 @@ def test_get_data_non_existent_file() -> None:
     assert JSONWriter(path_file).get_data() == []
 
 
-
 def test_get_data_empty_file() -> None:
     path_file = os.path.join(directory, "data", "empty_file.json")
 
     with open(path_file, "a", encoding="UTF-8"):
         assert JSONWriter(path_file).get_data() == []
-
-
 
     os.remove(path_file)
 
@@ -61,8 +57,6 @@ def test_get_data_incorrect_content() -> None:
         file.write("incorrect_content")
 
     assert JSONWriter(path_file).get_data() == []
-
-
 
     os.remove(path_file)
 

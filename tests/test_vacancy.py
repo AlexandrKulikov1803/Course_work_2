@@ -23,10 +23,16 @@ def test_vacancy_ge(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
     assert vacancy_1 >= vacancy_2
     assert not vacancy_2 >= vacancy_1
 
+    vacancy_3 = Vacancy("Java Developer", "https://hh.ru/vacancy/654321", "Не указана", "2 года")
+    assert not vacancy_2 >= vacancy_3
+
 
 def test_vacancy_le(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
     assert vacancy_2 <= vacancy_1
     assert not vacancy_1 <= vacancy_2
+
+    vacancy_3 = Vacancy("Java Developer", "https://hh.ru/vacancy/654321", "Не указана", "2 года")
+    assert not vacancy_2 <= vacancy_3
 
 
 def test_vacancy_eq(vacancy_1: Vacancy, vacancy_2: Vacancy) -> None:
