@@ -1,0 +1,1 @@
+[{"name": "Аналитик данных (Data Analyst)", "url": "https://api.hh.ru/vacancies/124265987?host=hh.ru", "salary": "Не указана", "experience": "От 1 года до 3 лет"}, {"name": "Инженер по ручному тестированию", "url": "https://api.hh.ru/vacancies/124477766?host=hh.ru", "salary": "Не указана", "experience": "От 2 до 6 лет"}]
